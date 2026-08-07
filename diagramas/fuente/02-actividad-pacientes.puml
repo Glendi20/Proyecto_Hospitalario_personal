@@ -1,0 +1,92 @@
+@startuml 02-actividad-pacientes
+' =====================================================================
+' Diagrama de Actividad
+' Modulo: Pacientes - registro, edicion, busqueda y detalle
+' Proceso: registro, busqueda y actualizacion segura de un paciente
+' Autora: Glendi Patricia Campos Orellana
+' =====================================================================
+skinparam activity {
+  BackgroundColor #F5F7FA
+  BorderColor #33475B
+  DiamondBackgroundColor #FFF3CD
+}
+
+start
+:Seleccionar operacion\n(Registrar / Buscar / Actualizar);
+
+switch (Operacion seleccionada?)
+case ( Registrar )
+  :Ingresar datos del paciente\n(nombre, identidad, nacimiento, contacto);
+  if (¿Campos obligatorios completos\ny con formato valido?) then (no)
+    #FFCDD2:Mostrar error de validacion\n(campos incompletos o formato invalido);
+    stop
+  else (si)
+  endif
+
+  :Verificar permisos del usuario (RBAC);
+  if (¿Usuario autorizado\npara registrar?) then (no)
+    #FFCDD2:Denegar operacion;
+    :Registrar intento denegado\nen bitacora de auditoria;
+    stop
+  else (si)
+  endif
+
+  :Validar duplicidad por\nnumero de identidad;
+  if (¿Ya existe un paciente\ncon ese numero de identidad?) then (si)
+    #FFE0B2:Mostrar alerta de paciente duplicado;
+    :Sugerir ir a "Actualizar paciente" existente;
+    stop
+  else (no)
+  endif
+
+  :Guardar paciente en base de datos;
+  :Registrar evento de auditoria (alta de paciente);
+  #C8E6C9:Mostrar confirmacion de registro exitoso;
+  stop
+
+case ( Buscar )
+  :Ingresar criterio de busqueda\n(nombre, identidad o numero de expediente);
+  :Ejecutar consulta en base de datos;
+  if (¿Se encontraron resultados?) then (no)
+    #FFE0B2:Mostrar mensaje "sin resultados";
+    stop
+  else (si)
+  endif
+  :Mostrar lista de pacientes encontrados;
+  :Seleccionar paciente de la lista;
+  #C8E6C9:Mostrar detalle del paciente;
+  stop
+
+case ( Actualizar )
+  :Seleccionar paciente\n(desde resultado de busqueda);
+  :Verificar permisos del usuario (RBAC);
+  if (¿Usuario autorizado\npara actualizar?) then (no)
+    #FFCDD2:Denegar operacion;
+    :Registrar intento denegado\nen bitacora de auditoria;
+    stop
+  else (si)
+  endif
+
+  :Cargar datos actuales del paciente\n(incluye version del registro);
+  :Modificar campos requeridos;
+  if (¿Datos modificados\nson validos?) then (no)
+    #FFCDD2:Mostrar error de validacion;
+    stop
+  else (si)
+  endif
+
+  :Verificar version del registro\n(control de concurrencia);
+  if (¿Otro usuario modifico\nel registro antes?) then (si)
+    #FFE0B2:Mostrar error de conflicto de concurrencia;
+    :Recargar datos actuales del paciente;
+    stop
+  else (no)
+  endif
+
+  :Guardar cambios en base de datos;
+  :Registrar evento de auditoria\n(edicion: campos modificados);
+  #C8E6C9:Mostrar confirmacion de actualizacion exitosa;
+  stop
+endswitch
+
+@enduml
