@@ -1,0 +1,101 @@
+@startuml 03-secuencia-pacientes
+' =====================================================================
+' Diagrama de Secuencia
+' Modulo: Pacientes - registro, edicion, busqueda y detalle
+' Proceso: registro, busqueda y actualizacion segura de un paciente
+' Autora: Glendi Patricia Campos Orellana
+' =====================================================================
+skinparam sequenceMessageAlign center
+skinparam maxMessageSize 160
+
+actor "Recepcionista" as R
+boundary "UI Pacientes" as UI
+control "PacienteController" as CTRL
+control "AuthService (RBAC)" as AUTH
+control "PacienteService" as SVC
+control "AuditoriaService" as AUD
+database "PacienteRepository (BD)" as DB
+
+== Buscar paciente ==
+R -> UI : ingresar criterio de busqueda
+UI -> CTRL : buscarPaciente(criterio)
+CTRL -> SVC : buscar(criterio)
+SVC -> DB : SELECT paciente WHERE criterio
+DB --> SVC : resultados
+alt resultados encontrados
+  SVC --> CTRL : lista de pacientes
+  CTRL --> UI : 200 OK (lista)
+  UI --> R : mostrar lista de pacientes
+else sin resultados
+  SVC --> CTRL : lista vacia
+  CTRL --> UI : 200 OK (vacio)
+  UI --> R : "No se encontraron pacientes"
+end
+
+== Registrar paciente ==
+R -> UI : ingresar datos del paciente
+UI -> CTRL : registrarPaciente(datosPaciente)
+CTRL -> CTRL : validarCamposObligatorios(datosPaciente)
+alt datos invalidos
+  CTRL --> UI : 400 Bad Request (errores de formato)
+  UI --> R : mostrar errores de formulario
+else datos validos
+  CTRL -> AUTH : verificarPermiso(usuario, "REGISTRAR_PACIENTE")
+  alt sin permiso
+    AUTH --> CTRL : permiso denegado
+    CTRL -> AUD : registrarEvento(usuario, "INTENTO_DENEGADO", "registrar")
+    CTRL --> UI : 403 Forbidden
+    UI --> R : "No tiene permisos para esta operacion"
+  else con permiso
+    AUTH --> CTRL : permiso concedido
+    CTRL -> SVC : registrar(datosPaciente)
+    SVC -> DB : existeDuplicado(numeroIdentidad)
+    DB --> SVC : resultado
+    alt paciente duplicado
+      SVC --> CTRL : error - paciente ya existe
+      CTRL --> UI : 409 Conflict (duplicado)
+      UI --> R : "El paciente ya esta registrado"
+    else sin duplicado
+      SVC -> DB : INSERT paciente
+      DB --> SVC : paciente creado (idPaciente)
+      SVC -> AUD : registrarEvento(usuario, "ALTA_PACIENTE", idPaciente)
+      SVC --> CTRL : paciente registrado
+      CTRL --> UI : 201 Created
+      UI --> R : "Paciente registrado exitosamente"
+    end
+  end
+end
+
+== Actualizar paciente ==
+R -> UI : seleccionar paciente y modificar datos
+UI -> CTRL : actualizarPaciente(idPaciente, cambios, version)
+CTRL -> AUTH : verificarPermiso(usuario, "ACTUALIZAR_PACIENTE")
+alt sin permiso
+  AUTH --> CTRL : permiso denegado
+  CTRL -> AUD : registrarEvento(usuario, "INTENTO_DENEGADO", "actualizar")
+  CTRL --> UI : 403 Forbidden
+  UI --> R : "No tiene permisos para esta operacion"
+else con permiso
+  AUTH --> CTRL : permiso concedido
+  CTRL -> CTRL : validarCambios(cambios)
+  alt cambios invalidos
+    CTRL --> UI : 400 Bad Request (errores de formato)
+    UI --> R : mostrar errores de formulario
+  else cambios validos
+    CTRL -> SVC : actualizar(idPaciente, cambios, version)
+    SVC -> DB : UPDATE paciente WHERE id=idPaciente AND version=version
+    DB --> SVC : filas afectadas
+    alt conflicto de concurrencia (0 filas afectadas)
+      SVC --> CTRL : error - version desactualizada
+      CTRL --> UI : 409 Conflict (concurrencia)
+      UI --> R : "El registro fue modificado por otro usuario; recargue e intente de nuevo"
+    else actualizacion exitosa
+      SVC -> AUD : registrarEvento(usuario, "EDICION_PACIENTE", idPaciente, camposModificados)
+      SVC --> CTRL : paciente actualizado
+      CTRL --> UI : 200 OK
+      UI --> R : "Datos actualizados exitosamente"
+    end
+  end
+end
+
+@enduml
