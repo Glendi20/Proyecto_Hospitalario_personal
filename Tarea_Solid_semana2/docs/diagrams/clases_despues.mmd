@@ -1,0 +1,47 @@
+%% Diagrama de clases — DISEÑO DESPUÉS
+%% Módulo: Pacientes — flujo: registro, búsqueda y actualización segura
+%% Principio evaluado: LSP (Liskov Substitution Principle)
+classDiagram
+    class RepositorioPacienteInterface {
+        <<interface>>
+        +registrar(datos) int
+        +buscarPorDocumento(documento) array|null
+        +actualizar(id, datos) bool
+    }
+
+    class RepositorioPacientePDO
+    class RepositorioPacienteMemoria
+
+    RepositorioPacienteInterface <|.. RepositorioPacientePDO
+    RepositorioPacienteInterface <|.. RepositorioPacienteMemoria
+
+    class ValidadorPacienteInterface {
+        <<interface>>
+        +validar(datos) ResultadoValidacion
+    }
+
+    class ValidadorEstandar
+    class ValidadorExtranjero
+    class ValidadorMenorEdad
+
+    ValidadorPacienteInterface <|.. ValidadorEstandar
+    ValidadorPacienteInterface <|.. ValidadorExtranjero
+    ValidadorPacienteInterface <|.. ValidadorMenorEdad
+
+    class ServicioPaciente {
+        -RepositorioPacienteInterface repositorio
+        -ValidadorPacienteInterface validador
+        +registrar(datos) ResultadoOperacion
+        +buscarPorDocumento(documento) array|null
+        +actualizar(id, datos) bool
+    }
+
+    ServicioPaciente --> RepositorioPacienteInterface : depende de (DIP de apoyo)
+    ServicioPaciente --> ValidadorPacienteInterface : depende de (composicion, no herencia)
+
+    note for RepositorioPacientePDO "Cumple el contrato exacto de la interfaz:
+mismas precondiciones y postcondiciones
+que RepositorioPacienteMemoria"
+    note for ValidadorExtranjero "La regla adicional (pasaporte) vive aqui,
+no en el repositorio: ya no se fortalece
+ninguna precondicion heredada"

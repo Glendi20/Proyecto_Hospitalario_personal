@@ -1,0 +1,33 @@
+%% Diagrama de secuencia — DISEÑO DESPUÉS
+%% El mismo cliente programa contra ServicioPaciente (que depende de las
+%% interfaces). Cualquier combinación repositorio+validador funciona igual.
+sequenceDiagram
+    actor Cliente as Cliente (flujo Pacientes)
+    participant Servicio as ServicioPaciente
+    participant Repo as RepositorioPacienteInterface
+    participant Val as ValidadorPacienteInterface
+
+    Note over Cliente,Val: Combinación intercambiable: PDO+Estandar, PDO+Extranjero o Memoria+MenorEdad
+
+    Cliente->>Servicio: registrar(datos)
+    Servicio->>Val: validar(datos)
+    alt datos válidos
+        Val-->>Servicio: ResultadoValidacion::valido()
+        Servicio->>Repo: registrar(datos)
+        Repo-->>Servicio: id (int)
+        Servicio-->>Cliente: ResultadoOperacion::exito(id)
+    else datos incompletos (p. ej. falta pasaporte o tutor)
+        Val-->>Servicio: ResultadoValidacion::invalido(errores)
+        Servicio-->>Cliente: ResultadoOperacion::fallo(errores)
+        Note over Cliente,Servicio: Rechazo por resultado, NUNCA por excepción
+    end
+
+    Cliente->>Servicio: buscarPorDocumento("no-existe")
+    Servicio->>Repo: buscarPorDocumento("no-existe")
+    Repo-->>Servicio: null
+    Servicio-->>Cliente: null
+
+    Cliente->>Servicio: actualizar(id, datos)
+    Servicio->>Repo: actualizar(id, datos)
+    Repo-->>Servicio: true|false (bool, siempre)
+    Servicio-->>Cliente: true|false

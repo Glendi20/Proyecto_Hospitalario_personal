@@ -1,0 +1,26 @@
+%% Diagrama de secuencia — DISEÑO ANTES
+%% El cliente programa contra RepositorioPaciente (tipo base) y recibe,
+%% por sustitución, una subclase. El flujo se rompe.
+sequenceDiagram
+    actor Cliente as Cliente (flujo Pacientes)
+    participant Base as RepositorioPaciente
+    participant Ext as RepositorioPacienteExtranjero
+    participant Menor as RepositorioPacienteMenorEdad
+
+    Note over Cliente,Base: Caso 1: tipo base (funciona)
+    Cliente->>Base: registrar(datosMinimos)
+    Base-->>Cliente: id (int)
+    Cliente->>Base: buscarPorDocumento("no-existe")
+    Base-->>Cliente: null
+    Cliente->>Base: actualizar(id, datos)
+    Base-->>Cliente: true
+
+    Note over Cliente,Ext: Caso 2: sustituido por subclase Extranjero
+    Cliente->>Ext: registrar(datosMinimos)
+    Ext-->>Cliente: ❌ InvalidArgumentException (exige 'pasaporte')
+    Cliente->>Ext: actualizar(0, datos)
+    Ext-->>Cliente: ❌ TypeError (retorna null en vez de bool)
+
+    Note over Cliente,Menor: Caso 3: sustituido por subclase MenorEdad
+    Cliente->>Menor: buscarPorDocumento("no-existe")
+    Menor-->>Cliente: ❌ RuntimeException (esperaba null)

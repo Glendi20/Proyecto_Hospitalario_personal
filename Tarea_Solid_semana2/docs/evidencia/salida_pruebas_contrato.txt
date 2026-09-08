@@ -1,0 +1,57 @@
+==============================================================================
+SECCIÓN 1 / 2 — DISEÑO ANTES (se espera que ALGUNA aserción falle:
+                 esa falla es la evidencia de la violación LSP, CA-05)
+==============================================================================
+
+> Contrato de repositorio sobre: Antes\RepositorioPaciente (tipo base)
+  [PASS] registrar() con datos mínimos no lanza excepción y retorna int > 0
+  [PASS] buscarPorDocumento() de un documento inexistente retorna null sin lanzar excepción
+  [PASS] actualizar() retorna siempre bool, sin lanzar excepción por reglas de negocio
+
+> Contrato de repositorio sobre: Antes\RepositorioPacienteExtranjero (subclase)
+  [FAIL] registrar() con datos mínimos no lanza excepción y retorna int > 0 -> lanzó InvalidArgumentException: El pasaporte es obligatorio para pacientes extranjeros.
+  [PASS] buscarPorDocumento() de un documento inexistente retorna null sin lanzar excepción
+  [FAIL] actualizar() no pudo verificarse: registrar() no produjo id
+
+> Contrato de repositorio sobre: Antes\RepositorioPacienteMenorEdad (subclase)
+  [PASS] registrar() con datos mínimos no lanza excepción y retorna int > 0
+  [FAIL] buscarPorDocumento() de un documento inexistente retorna null sin lanzar excepción -> lanzó RuntimeException: No se encontró paciente menor de edad con documento GT-DOCUMENTO-INEXISTENTE (falta tutor).
+  [PASS] actualizar() retorna siempre bool, sin lanzar excepción por reglas de negocio
+
+Resultado ANTES: 3 de 9 aserciones fallaron.
+-> CONFIRMADO: el diseño ANTES viola LSP (se registran fallas al sustituir subclases).
+
+==============================================================================
+SECCIÓN 2 / 2 — DISEÑO DESPUÉS (se espera que TODAS las aserciones pasen:
+                 CA-01, CA-02, CA-03, CA-04)
+==============================================================================
+
+> Contrato de repositorio sobre: Despues\RepositorioPacientePDO
+  [PASS] registrar() con datos mínimos no lanza excepción y retorna int > 0
+  [PASS] buscarPorDocumento() de un documento inexistente retorna null sin lanzar excepción
+  [PASS] actualizar() retorna siempre bool, sin lanzar excepción por reglas de negocio
+
+> Contrato de repositorio sobre: Despues\RepositorioPacienteMemoria
+  [PASS] registrar() con datos mínimos no lanza excepción y retorna int > 0
+  [PASS] buscarPorDocumento() de un documento inexistente retorna null sin lanzar excepción
+  [PASS] actualizar() retorna siempre bool, sin lanzar excepción por reglas de negocio
+
+> Contrato de validador sobre: Despues\ValidadorEstandar
+  [PASS] validar() con datos incompletos retorna ResultadoValidacion inválido, sin lanzar excepción
+
+> Contrato de validador sobre: Despues\ValidadorExtranjero
+  [PASS] validar() con datos incompletos retorna ResultadoValidacion inválido, sin lanzar excepción
+
+> Contrato de validador sobre: Despues\ValidadorMenorEdad
+  [PASS] validar() con datos incompletos retorna ResultadoValidacion inválido, sin lanzar excepción
+
+Resultado DESPUÉS: 0 de 9 aserciones fallaron.
+-> CONFIRMADO: el diseño DESPUÉS cumple LSP (todas las implementaciones son sustituibles).
+
+==============================================================================
+RESUMEN FINAL
+==============================================================================
+ANTES   : 3/9 fallidas (se ESPERA > 0 -> violación evidenciada)
+DESPUÉS : 0/9 fallidas (se REQUIERE 0 -> LSP cumplido)
+
+VEREDICTO: OK - La evidencia respalda la aplicación correcta de LSP en el rediseño.
