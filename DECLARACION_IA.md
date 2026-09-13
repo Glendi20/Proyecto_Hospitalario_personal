@@ -1,31 +1,45 @@
-# Declaración de uso de Inteligencia Artificial
+# DECLARACION_IA.md — Módulo 03
 
-**Estudiante:** Glendi Patricia Campos Orellana
-**Actividad:** Modelado UML — Módulo Pacientes (registro, edición, búsqueda y detalle)
-**Fecha:** 07 de agosto de 2026
+* **Estudiante:** Glendi Patricia Campos Orellana (`Glendi20`)
+* **Herramienta:** Claude Code (Anthropic), utilizado como apoyo durante el desarrollo del módulo.
 
-## 1. Herramienta utilizada
+## Propósito del uso de IA
 
-Utilice una herramienta de Inteligencia Artificial(claude) como apoyo minimo durante la elaboración de la actividad.
+Se utilizó IA de manera puntual como herramienta de apoyo para resolver algunas dudas técnicas durante el desarrollo del módulo, principalmente relacionadas con la organización del código, pruebas y documentación.
 
-## 2. Propósito del uso
+La implementación y las decisiones finales del módulo fueron realizadas y revisadas por la estudiante.
 
-La IA se empleó únicamente para:
+## Prompt relevante
 
-* Revisar la redacción y mejorar la claridad de algunos apartados del documento.
-* Resolver dudas generales sobre la sintaxis de PlantUML y la representación de algunos elementos UML.
-* Sugerir mejoras de presentación y organización del contenido.
+Se realizaron consultas puntuales relacionadas con la actividad, solicitando explicaciones y sugerencias sobre algunos aspectos técnicos del módulo de Pacientes.
 
-## 3. Uso realizado
+La IA se utilizó principalmente como referencia para aclarar dudas y detectar posibles errores, sin delegar completamente el desarrollo del módulo.
 
-La información utilizada para elaborar los diagramas y el documento se basó en la guía proporcionada por el docente y en el análisis realizado. La IA únicamente se utilizó como herramienta de consulta y apoyo en aspectos de redacción y formato.
+## Uso de IA
 
-No se compartió información clínica real ni datos personales de pacientes durante el uso de la herramienta.
+La herramienta se utilizó principalmente para:
 
-## 4. Lo que yo realice
+* Consultar dudas sobre la estructura por capas del proyecto.
+* Revisar algunos errores de código.
+* Obtener sugerencias para mejorar determinadas implementaciones.
+* Apoyar en la revisión de pruebas y documentación.
 
-Realice el análisis del módulo asignado, elabore y revise los diagramas UML, verifique la coherencia entre los diferentes artefactos y efectue los ajustes necesarios antes de la entrega final.
+El código fue revisado y adaptado según los requerimientos de la actividad.
 
-## 5. Validación humana
+## Revisión humana
 
-Revise todo el contenido presentado, para poder comprender los diagramas elaborados y ser capaz de explicar las decisiones de modelado.
+La estudiante realizó la revisión del código y de las decisiones implementadas, verificando que cumplieran con los requerimientos establecidos para el módulo.
+
+También se revisaron las pruebas y la estructura del proyecto para asegurar que los cambios realizados fueran compatibles con el resto del sistema.
+
+## Validación
+
+Se realizaron verificaciones de sintaxis y pruebas durante el desarrollo. Los resultados fueron revisados para identificar y corregir posibles errores antes de la entrega.
+
+La estudiante es responsable de comprender y poder explicar el funcionamiento del código correspondiente al módulo durante la defensa oral.
+
+## Declaración
+
+La IA fue utilizada únicamente como **herramienta de apoyo técnico y consulta**, principalmente para resolver dudas, revisar errores y obtener sugerencias durante el desarrollo.
+
+La responsabilidad sobre el código final, su revisión y su funcionamiento corresponde a la estudiante.
