@@ -6,22 +6,21 @@
 **Principio SOLID aplicado:** LSP (Liskov Substitution Principle)
 **Consigna individual:** Aplicar LSP al diseño del flujo «registro, búsqueda y actualización segura de un paciente»; definir RF/RNF y criterios de aceptación; mostrar diseño antes/después; justificar responsabilidades y dependencias; aportar evidencia verificable.
 
-**Repositorio:** https://github.com/Glendi20/Tarea_Solid_AnalisisII
+**Repositorio:** https://github.com/Glendi20/Proyecto_Hospitalario_personal (esta carpeta: `Tarea_Solid_semana2/`)
 **Rama evaluada:** `main`
-**Commit / etiqueta evaluada:** `[COMPLETAR: hash o tag tras hacer los commits]`
+**Commit / etiqueta evaluada:** `d1d3c28`
 
 > Los datos usados en todo el proyecto son **exclusivamente ficticios**, sin información clínica identificable.
 
 ## Documento principal
 
-- 📄 Informe completo (fuente editable): [`docs/Informe_LSP_Pacientes.md`](docs/Informe_LSP_Pacientes.md)
-- 📄 Informe completo (DOCX): [`docs/Informe_LSP_Pacientes.docx`](docs/Informe_LSP_Pacientes.docx)
+- 📄 Informe completo: [`docs/Informe_LSP_Pacientes.md`](docs/Informe_LSP_Pacientes.md)
 - 🤖 Declaración de uso de IA: [`DECLARACION_IA.md`](DECLARACION_IA.md)
 
-## Estructura del repositorio
+## Estructura de esta carpeta
 
 ```text
-Tarea_Solid_AnalisisII/
+Tarea_Solid_semana2/
 ├── README.md                      <- este archivo
 ├── DECLARACION_IA.md
 ├── database/
@@ -56,22 +55,16 @@ Las salidas ya quedaron capturadas como evidencia en [`docs/evidencia/`](docs/ev
 
 ## Evidencia Git
 
-`[COMPLETAR tras hacer los commits — la IA no generó commits, por instrucción explícita de la estudiante]`
+Esta carpeta se agregó al repositorio en un único commit:
 
-Pasos sugeridos (a ejecutar manualmente):
-
-```bash
-git add .
-git commit -m "feat(antes): agregar jerarquia de repositorios que viola LSP"
-# ... commits adicionales atómicos, ver docs/Informe_LSP_Pacientes.md sección 2.10
-git log --oneline
-git push origin main
+```
+d1d3c28 subiendo archivos
 ```
 
-Tras el push, completar en este README y en la portada del informe:
-- El hash del commit evaluado.
-- La salida real de `git log --oneline`.
-- El enlace directo al commit en GitHub.
+Enlace directo: https://github.com/Glendi20/Proyecto_Hospitalario_personal/commit/d1d3c28
+
+Ver también el historial completo del repositorio (semana 1 + semana 2) en
+[`../docs/02-evidencia-git.md`](../docs/02-evidencia-git.md).
 
 ## Declaración de IA
 

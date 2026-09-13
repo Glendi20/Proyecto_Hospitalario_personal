@@ -1,4 +1,4 @@
-# Proyecto Hospitalario — Modelado UML del módulo Pacientes
+# Proyecto Hospitalario — Avance individual del módulo Pacientes
 
 **Estudiante:** Glendi Patricia Campos Orellana
 **GitHub:** [`Glendi20`](https://github.com/Glendi20)
@@ -10,19 +10,26 @@
 **Commit / etiqueta evaluada:** _<completar con el hash corto del último commit, ver sección
 "Evidencia Git" abajo>_
 
-## Descripción
+## Contenido por semana
 
-Este repositorio contiene el análisis y modelado UML (casos de uso, actividad y secuencia) del
-proceso «registro, búsqueda y actualización segura de un paciente», entregado como actividad
-individual del módulo de Pacientes. Todos los datos son ficticios; no contiene información clínica
-real ni datos personales identificables.
+| Semana | Entrega | Ubicación |
+|---|---|---|
+| **Semana 1** | Modelado UML (casos de uso, actividad, secuencia) del proceso de Pacientes | Raíz de este repositorio (`diagramas/`, `docs/`) |
+| **Semana 2** | Aplicación del principio SOLID **LSP** (Liskov) al mismo módulo: diseño antes/después, pruebas de contrato y evidencia de ejecución | [`Tarea_Solid_semana2/`](./Tarea_Solid_semana2/README.md) |
+
+## Descripción — Semana 1 (raíz de este repositorio)
+
+Contiene el análisis y modelado UML (casos de uso, actividad y secuencia) del proceso «registro,
+búsqueda y actualización segura de un paciente», entregado como actividad individual del módulo de
+Pacientes. Todos los datos son ficticios; no contiene información clínica real ni datos personales
+identificables.
 
 ## Estructura del repositorio
 
 ```
 .
 ├── README.md                          Este archivo (portada técnica del repo)
-├── DECLARACION_IA.md                  Declaración transparente de uso de IA
+├── DECLARACION_IA.md                  Declaración transparente de uso de IA (semana 1)
 ├── diagramas/
 │   ├── fuente/                        Fuentes UML editables (PlantUML, texto plano)
 │   │   ├── 01-casos-de-uso-pacientes.puml
@@ -32,9 +39,10 @@ real ni datos personales identificables.
 │       ├── 01-casos-de-uso-pacientes.png
 │       ├── 02-actividad-pacientes.png
 │       └── 03-secuencia-pacientes.png
-└── docs/
-    ├── 01-matriz-trazabilidad.md      Matriz requisito → diagrama → elemento
-    └── 02-evidencia-git.md            Historial de commits y enlace al commit evaluado
+├── docs/
+│   ├── 01-matriz-trazabilidad.md      Matriz requisito → diagrama → elemento
+│   └── 02-evidencia-git.md            Historial de commits y enlace al commit evaluado
+└── Tarea_Solid_semana2/               Entrega de la semana 2 (principio LSP) — ver su propio README
 ```
 
 ## Cómo re-renderizar los diagramas
